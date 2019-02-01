@@ -2,6 +2,7 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
 {
     using System.Collections.Generic;
     using Enums;
+    using Events;
     using Runtime;
     using UnityEngine;
     using UnityEngine.EventSystems;
@@ -23,13 +24,17 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
         // -------------------------------------------------------------------
         // Public
         // -------------------------------------------------------------------
-        [SerializeField] public GameObject Root;
+        [SerializeField] 
+        public GameObject Root;
 
-        [SerializeField] public GameObject NotifyRoot;
+        [SerializeField] 
+        public GameObject NotifyRoot;
 
-        [SerializeField] public GameObject PointerMarkerRoot;
+        [SerializeField] 
+        public GameObject PointerMarkerRoot;
 
-        [SerializeField] public UIControlAwakeState AwakeState;
+        [SerializeField] 
+        public UIControlAwakeState AwakeState;
 
         public bool IsHidden
         {
@@ -57,6 +62,8 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
                     break;
                 }
             }
+            
+            this.SubscribeEvent<EventEngineInitialized>(this.OnEngineInitialized);
         }
 
         public virtual void OnDestroy()
@@ -93,6 +100,16 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
                 this.NotifyRoot.SetActive(false);
             }
         }
+        
+        public virtual void Hide()
+        {
+            this.ToggleRoot(false);
+        }
+
+        public virtual void Show()
+        {
+            this.ToggleRoot(true);
+        }
 
         // -------------------------------------------------------------------
         // Protected
@@ -105,16 +122,6 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
             this.managedEventSubscriptions.Add(ticket);
         }
 
-        protected virtual void Hide()
-        {
-            this.ToggleRoot(false);
-        }
-
-        protected virtual void Show()
-        {
-            this.ToggleRoot(true);
-        }
-
         protected virtual void Notify()
         {
             if (this.NotifyRoot != null)
@@ -123,9 +130,18 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
             }
         }
 
+        protected virtual void Initialize()
+        {
+        }
+
         // -------------------------------------------------------------------
         // Private
         // -------------------------------------------------------------------
+        private void OnEngineInitialized(EventEngineInitialized eventData)
+        {
+            this.Initialize();
+        }
+        
         private void ToggleRoot(bool isVisible)
         {
             if (this.Root == null)
