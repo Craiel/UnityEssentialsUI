@@ -38,6 +38,9 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
         [SerializeField] 
         public GameObject PointerMarkerRoot;
 
+        [SerializeField]
+        public GameObject FirstActiveControl;
+
         [SerializeField] 
         public UIControlAwakeState AwakeState;
 
@@ -120,6 +123,11 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
         public virtual void Show()
         {
             this.ToggleRoot(true);
+
+            if (this.FirstActiveControl != null && EventSystem.current != null)
+            {
+                EventSystem.current.SetSelectedGameObject(this.FirstActiveControl);
+            }
         }
 
         public virtual void Update()
