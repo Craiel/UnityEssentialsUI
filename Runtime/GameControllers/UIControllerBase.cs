@@ -7,11 +7,16 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEssentials.Runtime.Contracts;
+    using UnityEssentials.Runtime.EngineCore;
     using UnityEssentials.Runtime.Event;
 
     public class UIControllerBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         private readonly IList<BaseEventSubscriptionTicket> managedEventSubscriptions;
+
+        private bool isInitialized;
+        
+        private BaseEventSubscriptionTicket initializationEventTicket;
 
         // -------------------------------------------------------------------
         // Constructor
@@ -43,6 +48,10 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
 
         public virtual void Awake()
         {
+#if DEBUG
+            EssentialCoreUI.Logger.Info("UIControllerBase.Awake: {0}", this.GetType().Name);
+#endif
+            
             if (this.Root == null)
             {
                 EssentialCoreUI.Logger.Warn("UI Controller has no root set: {0} ({1})", this.name, this.GetType().Name);
@@ -62,12 +71,14 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
                     break;
                 }
             }
-            
-            this.SubscribeEvent<EventEngineInitialized>(this.OnEngineInitialized);
         }
 
         public virtual void OnDestroy()
         {
+#if DEBUG
+            EssentialCoreUI.Logger.Info("UIControllerBase.Destroy: {0}", this.GetType().Name);
+#endif
+            
             foreach (BaseEventSubscriptionTicket ticket in this.managedEventSubscriptions)
             {
                 BaseEventSubscriptionTicket closure = ticket;
@@ -111,6 +122,32 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
             this.ToggleRoot(true);
         }
 
+        public virtual void Update()
+        {
+            if (!this.isInitialized)
+            {
+                if (EssentialEngineState.IsInitialized)
+                {
+                    // Immediately initialize, the engine is already done
+                    this.Initialize();
+                }
+                else
+                {
+                    if (!GameEvents.IsInstanceActive)
+                    {
+                        // GameEvents is not yet available, can not complete initialization at this time
+                        return;
+                    }
+                    
+                    GameEvents.Subscribe<EventEngineInitialized>(this.OnEngineInitialized, out this.initializationEventTicket);
+                }
+
+                // We are now initialized, give an extra frame break to the next update loop
+                this.isInitialized = true;
+                return;
+            }
+        }
+
         // -------------------------------------------------------------------
         // Protected
         // -------------------------------------------------------------------
@@ -132,6 +169,9 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
 
         protected virtual void Initialize()
         {
+#if DEBUG
+            EssentialCoreUI.Logger.Info("UIControllerBase.Initialize: {0}", this.GetType().Name);
+#endif
         }
 
         // -------------------------------------------------------------------
@@ -139,6 +179,8 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
         // -------------------------------------------------------------------
         private void OnEngineInitialized(EventEngineInitialized eventData)
         {
+            GameEvents.Unsubscribe(ref this.initializationEventTicket);
+            
             this.Initialize();
         }
         
