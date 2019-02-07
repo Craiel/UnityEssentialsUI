@@ -1,31 +1,12 @@
 namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
 {
-    using System.Collections.Generic;
     using Enums;
-    using Events;
     using Runtime;
     using UnityEngine;
     using UnityEngine.EventSystems;
-    using UnityEssentials.Runtime.Contracts;
-    using UnityEssentials.Runtime.EngineCore;
-    using UnityEssentials.Runtime.Event;
 
-    public class UIControllerBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+    public class UIControllerBase : UIEngineBehavior, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
-        private readonly IList<BaseEventSubscriptionTicket> managedEventSubscriptions;
-
-        private bool isInitialized;
-        
-        private BaseEventSubscriptionTicket initializationEventTicket;
-
-        // -------------------------------------------------------------------
-        // Constructor
-        // -------------------------------------------------------------------
-        protected UIControllerBase()
-        {
-            this.managedEventSubscriptions = new List<BaseEventSubscriptionTicket>();
-        }
-
         // -------------------------------------------------------------------
         // Public
         // -------------------------------------------------------------------
@@ -49,11 +30,9 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
             get { return this.Root != null && !this.Root.activeSelf; }
         }
 
-        public virtual void Awake()
+        public override void Awake()
         {
-#if DEBUG
-            EssentialCoreUI.Logger.Info("UIControllerBase.Awake: {0}", this.GetType().Name);
-#endif
+            base.Awake();
             
             if (this.Root == null)
             {
@@ -74,21 +53,6 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
                     break;
                 }
             }
-        }
-
-        public virtual void OnDestroy()
-        {
-#if DEBUG
-            EssentialCoreUI.Logger.Info("UIControllerBase.Destroy: {0}", this.GetType().Name);
-#endif
-            
-            foreach (BaseEventSubscriptionTicket ticket in this.managedEventSubscriptions)
-            {
-                BaseEventSubscriptionTicket closure = ticket;
-                GameEvents.Unsubscribe(ref closure);
-            }
-
-            this.managedEventSubscriptions.Clear();
         }
 
         public virtual void OnPointerEnter(PointerEventData eventData)
@@ -130,43 +94,9 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
             }
         }
 
-        public virtual void Update()
-        {
-            if (!this.isInitialized)
-            {
-                if (EssentialEngineState.IsInitialized)
-                {
-                    // Immediately initialize, the engine is already done
-                    this.Initialize();
-                }
-                else
-                {
-                    if (!GameEvents.IsInstanceActive)
-                    {
-                        // GameEvents is not yet available, can not complete initialization at this time
-                        return;
-                    }
-                    
-                    GameEvents.Subscribe<EventEngineInitialized>(this.OnEngineInitialized, out this.initializationEventTicket);
-                }
-
-                // We are now initialized, give an extra frame break to the next update loop
-                this.isInitialized = true;
-                return;
-            }
-        }
-
         // -------------------------------------------------------------------
         // Protected
         // -------------------------------------------------------------------
-        protected void SubscribeEvent<T>(BaseEventAggregate<IGameEvent>.GameEventAction<T> callback)
-            where T : IGameEvent
-        {
-            BaseEventSubscriptionTicket ticket;
-            GameEvents.Subscribe(callback, out ticket);
-            this.managedEventSubscriptions.Add(ticket);
-        }
-
         protected virtual void Notify()
         {
             if (this.NotifyRoot != null)
@@ -175,23 +105,11 @@ namespace Craiel.UnityEssentialsUI.Runtime.GameControllers
             }
         }
 
-        protected virtual void Initialize()
-        {
-#if DEBUG
-            EssentialCoreUI.Logger.Info("UIControllerBase.Initialize: {0}", this.GetType().Name);
-#endif
-        }
+        
 
         // -------------------------------------------------------------------
         // Private
         // -------------------------------------------------------------------
-        private void OnEngineInitialized(EventEngineInitialized eventData)
-        {
-            GameEvents.Unsubscribe(ref this.initializationEventTicket);
-            
-            this.Initialize();
-        }
-        
         private void ToggleRoot(bool isVisible)
         {
             if (this.Root == null)
