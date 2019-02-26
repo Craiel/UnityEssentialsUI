@@ -9,6 +9,6 @@ namespace Craiel.UnityEssentialsUI.Runtime
         // -------------------------------------------------------------------
         public static readonly NLog.Logger Logger = LogManager.GetLogger("CRAIEL_ESSENTIALS_UI");
 
-        public const string ComponentMenuFolder = "EssentialUI";
+        public const string ComponentMenuFolder = "UI/Craiel";
     }
 }
