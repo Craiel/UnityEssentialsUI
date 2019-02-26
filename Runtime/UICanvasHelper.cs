@@ -2,6 +2,7 @@ namespace Craiel.UnityEssentialsUI.Runtime
 {
     using UnityEngine;
 
+    [AddComponentMenu(EssentialCoreUI.ComponentMenuFolder + "/Canvas Helper")]
     public class UICanvasHelper : MonoBehaviour
     {
         private RectTransform rectTransform;
