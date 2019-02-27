@@ -206,16 +206,11 @@ namespace Craiel.UnityEssentialsUI.Editor.Transitions
 		
 		private UnityEditor.Animations.AnimatorController GenerateAnimatorController(UITransitionBase typedTarget)
 		{
-			IList<string> triggers = new List<string>
-			{
+			return AnimatorControllerUtils.Generate(typedTarget.TargetGameObject.name,
 				string.IsNullOrEmpty(typedTarget.NormalTrigger) ? "Normal" : typedTarget.NormalTrigger,
 				string.IsNullOrEmpty(typedTarget.HighlightedTrigger) ? "Highlighted" : typedTarget.HighlightedTrigger,
 				string.IsNullOrEmpty(typedTarget.SelectedTrigger) ? "Selected" : typedTarget.SelectedTrigger,
-				string.IsNullOrEmpty(typedTarget.PressedTrigger) ? "Pressed" : typedTarget.PressedTrigger
-			};
-			
-            return null;
-            //return UIAnimatorControllerGenerator.GenerateAnimatorContoller(triggers, this.m_TargetGameObjectProperty.objectReferenceValue.name);
+				string.IsNullOrEmpty(typedTarget.PressedTrigger) ? "Pressed" : typedTarget.PressedTrigger);
 		}
     }
 }
