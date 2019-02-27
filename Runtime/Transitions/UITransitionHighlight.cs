@@ -18,15 +18,6 @@ namespace Craiel.UnityEssentialsUI.Runtime.Transitions
 	    // -------------------------------------------------------------------
 	    // Public
 	    // -------------------------------------------------------------------
-		[SerializeField] 
-        public string ActiveBool = "Active";
-		
-        [SerializeField] 
-        public bool UseToggle;
-        
-        [SerializeField] 
-        public Toggle TargetToggle;
-
 		public override void Awake()
 		{
 			base.Awake();

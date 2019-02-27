@@ -1,7 +1,8 @@
 {
     "name": "Craiel.UnityEssentialsUI.Editor",
     "references": [
-        "Craiel.UnityEssentialsUI.Runtime"
+        "Craiel.UnityEssentialsUI.Runtime",
+        "Craiel.UnityEssentials.Editor"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

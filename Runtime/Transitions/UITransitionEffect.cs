@@ -19,12 +19,6 @@ namespace Craiel.UnityEssentialsUI.Runtime.Transitions
         [SerializeField]
         [Tooltip("Graphic that will have the selected transition applied.")]
         public BaseMeshEffect TargetEffect;
-		
-        [SerializeField] 
-        public bool UseToggle;
-        
-        [SerializeField] 
-        public Toggle TargetToggle;
 
         public override void Awake()
         {

@@ -78,6 +78,15 @@ namespace Craiel.UnityEssentialsUI.Runtime.Transitions
         [Tooltip("GameObject that will have the selected transition applied.")]
         public GameObject TargetGameObject;
         
+        [SerializeField] 
+        public bool UseToggle;
+        
+        [SerializeField] 
+        public Toggle TargetToggle;
+        
+        [SerializeField] 
+        public string ActiveBool = "Active";
+        
         public virtual bool IsInteractable()
         {
             if (this.selectable != null)
