@@ -55,6 +55,8 @@ namespace Craiel.UnityEssentialsUI.Editor.Transitions
 	    // Protected
 	    // -------------------------------------------------------------------
 	    protected bool HasToggle { get; set; }
+	    
+	    protected bool DrawAllColors { get; set; }
 
 	    // -------------------------------------------------------------------
 	    // Private
@@ -80,9 +82,14 @@ namespace Craiel.UnityEssentialsUI.Editor.Transitions
 						    typedTarget.TargetGraphic.canvasRenderer.SetColor(typedTarget.NormalColor);
 					    }
 
-					    this.DrawProperty<UITransitionBase>(x => x.HighlightedColor);
-					    this.DrawProperty<UITransitionBase>(x => x.SelectedColor);
 					    this.DrawProperty<UITransitionBase>(x => x.PressedColor);
+
+					    if (this.DrawAllColors)
+					    {
+						    this.DrawProperty<UITransitionBase>(x => x.HighlightedColor);
+						    this.DrawProperty<UITransitionBase>(x => x.SelectedColor);
+					    }
+
 					    this.DrawProperty<UITransitionBase>(x => x.ColorMultiplier);
 					    this.DrawProperty<UITransitionBase>(x => x.Duration);
 				    }
@@ -105,9 +112,14 @@ namespace Craiel.UnityEssentialsUI.Editor.Transitions
 						    typedTarget.TargetGraphic.canvasRenderer.SetColor(typedTarget.NormalColor);
 					    }
 
-					    this.DrawProperty<UITransitionBase>(x => x.HighlightedColor);
-					    this.DrawProperty<UITransitionBase>(x => x.SelectedColor);
 					    this.DrawProperty<UITransitionBase>(x => x.PressedColor);
+
+					    if (this.DrawAllColors)
+					    {
+						    this.DrawProperty<UITransitionBase>(x => x.HighlightedColor);
+						    this.DrawProperty<UITransitionBase>(x => x.SelectedColor);
+					    }
+
 					    this.DrawProperty<UITransitionBase>(x => x.Duration);
 				    }
 				    
@@ -122,9 +134,13 @@ namespace Craiel.UnityEssentialsUI.Editor.Transitions
 				    }
 				    else
 				    {
-					    this.DrawProperty<UITransitionBase>(x => x.HighlightedColor);
-					    this.DrawProperty<UITransitionBase>(x => x.SelectedColor);
 					    this.DrawProperty<UITransitionBase>(x => x.PressedColor);
+					    
+					    if (this.DrawAllColors)
+					    {
+						    this.DrawProperty<UITransitionBase>(x => x.HighlightedColor);
+						    this.DrawProperty<UITransitionBase>(x => x.SelectedColor);
+					    }
 				    }
 				    
 				    break;

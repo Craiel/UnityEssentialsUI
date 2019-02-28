@@ -13,6 +13,7 @@ namespace Craiel.UnityEssentialsUI.Editor.Transitions
         public UITransitionHighlightEditor()
         {
             this.HasToggle = true;
+            this.DrawAllColors = true;
         }
     }
 }
