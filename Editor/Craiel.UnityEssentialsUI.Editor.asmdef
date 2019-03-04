@@ -2,7 +2,9 @@
     "name": "Craiel.UnityEssentialsUI.Editor",
     "references": [
         "Craiel.UnityEssentialsUI.Runtime",
-        "Craiel.UnityEssentials.Editor"
+        "Craiel.UnityEssentials.Editor",
+        "Unity.TextMeshPro.Editor",
+        "Unity.TextMeshPro"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [
