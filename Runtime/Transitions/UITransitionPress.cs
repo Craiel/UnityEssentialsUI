@@ -2,6 +2,7 @@ namespace Craiel.UnityEssentialsUI.Runtime.Transitions
 {
     using System;
     using Enums;
+    using TMPro;
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
@@ -63,6 +64,12 @@ namespace Craiel.UnityEssentialsUI.Runtime.Transitions
                 case UITransitionMode.TextColor:
                 {
                     this.SetTextColor(Color.white);
+                    break;
+                }
+
+                case UITransitionMode.TextColorTMP:
+                {
+                    this.SetTextColorTMP(Color.white);
                     break;
                 }
             }
@@ -129,6 +136,12 @@ namespace Craiel.UnityEssentialsUI.Runtime.Transitions
                 case UITransitionMode.TextColor:
                 {
                     this.StartColorTween((this.TargetGraphic as Text).color, color, false, this.SetTextColor);
+                    break;
+                }
+
+                case UITransitionMode.TextColorTMP:
+                {
+                    this.StartColorTween((this.TargetGraphic as TextMeshProUGUI).color, color, false, this.SetTextColorTMP);
                     break;
                 }
             }

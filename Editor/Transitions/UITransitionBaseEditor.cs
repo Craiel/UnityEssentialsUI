@@ -3,7 +3,8 @@ namespace Craiel.UnityEssentialsUI.Editor.Transitions
 	using System.Collections.Generic;
 	using Runtime.Enums;
 	using Runtime.Transitions;
-    using UnityEditor;
+	using TMPro;
+	using UnityEditor;
 	using UnityEngine;
 	using UnityEngine.UI;
 	using UnityEssentials.Editor;
@@ -31,6 +32,7 @@ namespace Craiel.UnityEssentialsUI.Editor.Transitions
 				case UITransitionMode.ColorTint:
 				case UITransitionMode.SpriteSwap:
 				case UITransitionMode.TextColor:
+				case UITransitionMode.TextColorTMP:
 				{
 					this.DrawGraphic(typedTarget);
 					break;
@@ -100,6 +102,35 @@ namespace Craiel.UnityEssentialsUI.Editor.Transitions
 			    case UITransitionMode.TextColor:
 			    {
 				    if (typedTarget.TargetGraphic == null || typedTarget.TargetGraphic is Text == false)
+				    {
+					    EditorGUILayout.HelpBox("You must have a Text target in order to use a text color transition.", MessageType.Warning);
+				    }
+				    else
+				    {
+					    EditorGUI.BeginChangeCheck();
+					    this.DrawProperty<UITransitionBase>(x => x.NormalColor);
+					    if (EditorGUI.EndChangeCheck())
+					    {
+						    typedTarget.TargetGraphic.canvasRenderer.SetColor(typedTarget.NormalColor);
+					    }
+
+					    this.DrawProperty<UITransitionBase>(x => x.PressedColor);
+
+					    if (this.DrawAllColors)
+					    {
+						    this.DrawProperty<UITransitionBase>(x => x.HighlightedColor);
+						    this.DrawProperty<UITransitionBase>(x => x.SelectedColor);
+					    }
+
+					    this.DrawProperty<UITransitionBase>(x => x.Duration);
+				    }
+				    
+				    break;
+			    }
+
+			    case UITransitionMode.TextColorTMP:
+			    {
+				    if (typedTarget.TargetGraphic == null || typedTarget.TargetGraphic is TextMeshProUGUI == false)
 				    {
 					    EditorGUILayout.HelpBox("You must have a Text target in order to use a text color transition.", MessageType.Warning);
 				    }
@@ -199,7 +230,8 @@ namespace Craiel.UnityEssentialsUI.Editor.Transitions
 		        switch (typedTarget.TransitionMode)
 		        {
 			        case UITransitionMode.ColorTint:
-				        case UITransitionMode.TextColor:
+			        case UITransitionMode.TextColor:
+			        case UITransitionMode.TextColorTMP:
 			        {
 				        this.DrawProperty<UITransitionBase>(x => x.ActiveColor);
 				        break;

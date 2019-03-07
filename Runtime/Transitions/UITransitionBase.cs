@@ -3,6 +3,7 @@ namespace Craiel.UnityEssentialsUI.Runtime.Transitions
     using System;
     using System.Collections.Generic;
     using Enums;
+    using TMPro;
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
@@ -243,6 +244,19 @@ namespace Craiel.UnityEssentialsUI.Runtime.Transitions
             if (this.TargetGraphic is Text)
             {
                 (this.TargetGraphic as Text).color = targetColor;
+            }
+        }
+
+        protected void SetTextColorTMP(Color targetColor)
+        {
+            if (this.TargetGraphic == null)
+            {
+                return;
+            }
+
+            if (this.TargetGraphic is TextMeshProUGUI)
+            {
+                (this.TargetGraphic as TextMeshProUGUI).color = targetColor;
             }
         }
     }

@@ -7,5 +7,6 @@ namespace Craiel.UnityEssentialsUI.Runtime.Enums
         SpriteSwap,
         Animation,
         TextColor,
+        TextColorTMP,
     }
 }
