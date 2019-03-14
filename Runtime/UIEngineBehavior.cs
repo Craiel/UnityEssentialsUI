@@ -6,6 +6,7 @@ namespace Craiel.UnityEssentialsUI.Runtime
     using UnityEssentials.Runtime.Contracts;
     using UnityEssentials.Runtime.EngineCore;
     using UnityEssentials.Runtime.Event;
+    using UnityEssentials.Runtime.Events;
 
     public class UIEngineBehavior : MonoBehaviour
     {
