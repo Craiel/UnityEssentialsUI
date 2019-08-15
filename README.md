@@ -19,9 +19,9 @@ Add the package and dependencies to your Project Manifest.json:
 ### Usage
 
 To use the Theme Library create a ColorScheme Scriptable object (Create -> Craiel -> UI -> ColorScheme).
-Then add the UIColorSchemeSystem to your ui hierarchy and set it to auto instantiate.
+Then add the `UIColorSchemeSystem` to your ui hierarchy and set it to auto instantiate.
 
-Now you can use it by adding an UIColorSchemeElement behaviour to your UI Elements that you want to theme. simply select the shade value and it will apply the theme at editor and runtime.
+Now you can use it by adding an `UIColorSchemeElement` behaviour to your UI Elements that you want to theme. simply select the shade value and it will apply the theme at editor and runtime.
 
 ## Contributing
 
