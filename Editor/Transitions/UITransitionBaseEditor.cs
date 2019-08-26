@@ -11,7 +11,7 @@ namespace Craiel.UnityEssentialsUI.Editor.Transitions
 
     [CanEditMultipleObjects]
     [CustomEditor(typeof(UITransitionBase))]
-    public class UITransitionBaseEditor : EssentialCustomEditor
+    public class UITransitionBaseEditor : EssentialEditorIM
     {
 	    // -------------------------------------------------------------------
 	    // Public
