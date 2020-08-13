@@ -1,8 +1,10 @@
 namespace Craiel.UnityEssentialsUI.Runtime.Theme.Targets
 {
-    using Enums;
-    using UnityEditor;
     using UnityEngine;
+    
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
 
     public abstract class UIThemeTarget : MonoBehaviour
     {
@@ -27,15 +29,22 @@ namespace Craiel.UnityEssentialsUI.Runtime.Theme.Targets
             }
         }
         
-#if UNITY_EDITOR
         public void OnValidate()
         {
+            if (this.Validate())
+            {
+#if UNITY_EDITOR
+                EditorUtility.SetDirty(this);
+#endif
+            }
+
+            
             if (UIThemeSystem.IsInstanceActive && UIThemeSystem.Instance.ActiveTheme != null)
             {
                 UIThemeSystem.Instance.ApplyThemeTo(this);
             }
         }
-#endif
+
 
         public void Apply(UITheme theme)
         {
@@ -55,6 +64,8 @@ namespace Craiel.UnityEssentialsUI.Runtime.Theme.Targets
         // -------------------------------------------------------------------
         // Protected
         // -------------------------------------------------------------------
+        protected abstract bool Validate();
+        
         protected abstract bool DoApply(UITheme theme);
     }
 }

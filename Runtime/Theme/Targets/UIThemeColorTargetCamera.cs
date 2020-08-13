@@ -1,17 +1,16 @@
 ﻿namespace Craiel.UnityEssentialsUI.Runtime.Theme.Targets
 {
     using Enums;
-    using TMPro;
     using UnityEngine;
 
-    [RequireComponent(typeof(TMP_Text))]
-    public class UIThemeColorTargetTMP : UIThemeTarget
+    [RequireComponent(typeof(Camera))]
+    public class UIThemeColorTargetCamera : UIThemeTarget
     {
         // -------------------------------------------------------------------
         // Public
         // -------------------------------------------------------------------
         [SerializeField]
-        public TMP_Text Text;
+        public Camera Camera;
 
         [SerializeField]
         public ThemeColorType ColorType = ThemeColorType.FontDefault;
@@ -24,10 +23,10 @@
         // -------------------------------------------------------------------
         protected override bool Validate()
         {
-            if (this.Text == null)
+            if (this.Camera == null)
             {
-                this.Text = this.GetComponent<TMP_Text>();
-                return this.Text != null;
+                this.Camera = this.GetComponent<Camera>();
+                return this.Camera != null;
             }
 
             return false;
@@ -35,7 +34,7 @@
 
         protected override bool DoApply(UITheme theme)
         {
-            if (Text == null)
+            if (this.Camera == null)
             {
                 return false;
             }
@@ -44,15 +43,15 @@
             if (!this.KeepAlphaValue)
             {
                 // Override the alpha value with the current value of the font
-                value = new Color(value.r, value.g, value.b, this.Text.color.a);
+                value = new Color(value.r, value.g, value.b, this.Camera.backgroundColor.a);
             }
             
-            if (this.Text.color == value)
+            if (this.Camera.backgroundColor == value)
             {
                 return false;
             }
 
-            this.Text.color = value;
+            this.Camera.backgroundColor = value;
             return true;
         }
     }
